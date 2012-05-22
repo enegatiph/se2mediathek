@@ -115,7 +115,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
     {
         assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
         assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
-
+        System.out.printf("fooo");
         // DONE
         for (Medium medium : medien)
         {

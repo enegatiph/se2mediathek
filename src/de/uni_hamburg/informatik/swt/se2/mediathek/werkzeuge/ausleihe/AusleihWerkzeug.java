@@ -222,12 +222,10 @@ public class AusleihWerkzeug
         Kunde kunde = _kundenAuflisterWerkzeug.getSelectedKunde();
         // DONE für Aufgabenblatt 6: So ändern, dass vorgemerkte Medien nur vom
         // ersten Vormerker ausgeliehen werden können.
-        for( Medium medium : medien)
-            if( equals(_verleihService.getErstenVormerkerFuer(medium)))
-                return false;
         
         return (kunde != null) && !medien.isEmpty()
-                && _verleihService.sindAlleNichtVerliehen(medien);
+                && _verleihService.sindAlleNichtVerliehen(medien) &&
+                _verleihService.istVerleihenMoeglich(medien, kunde);
 
     }
 
