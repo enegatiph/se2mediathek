@@ -35,7 +35,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
      * Die Menge mit den Verleihkarten.
      */
     private Map<Medium, VormerkKarte> _vormerkKarten;
-    
+
     /**
      * Der Medienbestand.
      */
@@ -77,9 +77,9 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         _kundenstamm = kundenstamm;
         _medienbestand = medienbestand;
         _protokollierer = new Verleihprotokollierer();
-        
+
         for (Medium medium : medienbestand.getMedien())
-            _vormerkKarten.put(medium, new VormerkKarte( medium));
+            _vormerkKarten.put(medium, new VormerkKarte(medium));
     }
 
     /**
@@ -95,7 +95,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         }
         return result;
     }
-    
+
     @Override
     public List<Verleihkarte> getVerleihkarten()
     {
@@ -109,20 +109,20 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         return _verleihkarten.get(medium) != null;
     }
 
-    //wurde editiert
+    // wurde editiert
     @Override
     public boolean istVerleihenMoeglich(List<Medium> medien, Kunde kunde)
     {
         assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
         assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
 
-        //--
-        for ( Medium medium : medien)
+        // DONE
+        for (Medium medium : medien)
         {
-            if( !_vormerkKarten.get(medium).getVormerker().remove().equals( kunde) ) //stil..
+            if (getErstenVormerkerFuer(medium) != null && !kunde.equals(getErstenVormerkerFuer(medium)))
                 return false;
         }
-        
+
         return sindAlleNichtVerliehen(medien);
     }
 
@@ -133,7 +133,6 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         assert sindAlleVerliehen(medien) : "Vorbedingung verletzt: sindVerliehen(medien)";
         assert rueckgabeDatum != null : "Vorbedingung verletzt: rueckgabeDatum != null";
 
-              
         for (Medium medium : medien)
         {
             Verleihkarte verleihkarte = _verleihkarten.get(medium);
@@ -157,9 +156,8 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
             }
         }
         return result;
-    }                           
+    }
 
-    
     @Override
     public boolean sindAlleVerliehen(List<Medium> medien)
     {
@@ -175,9 +173,9 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         return result;
     }
 
-    //wurde editiert
+    // wurde editiert
     @Override
-    public void verleiheAn(Kunde kunde, List<Medium>     medien, Datum ausleihDatum)
+    public void verleiheAn(Kunde kunde, List<Medium> medien, Datum ausleihDatum)
             throws ProtokollierException
     {
         assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
@@ -187,9 +185,10 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
 
         for (Medium medium : medien)
         {
-            //--
-            getVormerkkarteFuer(medium).removeErstenVormerker();
-            
+            // DONE
+            if(getErstenVormerkerFuer(medium) != null)
+                getVormerkkarteFuer(medium).removeErstenVormerker();
+
             Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
                     ausleihDatum);
             _verleihkarten.put(medium, verleihkarte);
@@ -273,10 +272,10 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         }
         return result;
     }
-    
-    /******* VerleihServiceImplVormerker**********/
 
-    //alternativer konstruktor
+    /******* VerleihServiceImplVormerker **********/
+
+    // alternativer konstruktor
     public VerleihServiceImpl(KundenstammService kundenstamm,
             MedienbestandService medienbestand,
             List<Verleihkarte> initialBestand,
@@ -292,8 +291,6 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         _protokollierer = new Verleihprotokollierer();
     }
 
-    
-    
     /**
      * Erzeugt eine neue HashMap aus dem Initialbestand für VormerkKarten
      */
@@ -303,53 +300,49 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         HashMap<Medium, VormerkKarte> result = new HashMap<Medium, VormerkKarte>();
         for (VormerkKarte vormerkkarte : initialBestand)
         {
-            result.put( vormerkkarte.getMedium(), vormerkkarte);
+            result.put(vormerkkarte.getMedium(), vormerkkarte);
         }
         return result;
     }
-    
-    
-    
+
     public void merkeVor(Kunde k, List<Medium> medien)
     {
-        for ( Medium medium : medien)
+        for (Medium medium : medien)
         {
-            if ( _vormerkKarten.get(medium).istVormerkenMoeglich(k))
+            if (_vormerkKarten.get(medium).istVormerkenMoeglich(k))
             {
                 _vormerkKarten.get(medium).addVormerker(k);
             }
         }
         informiereUeberAenderung();
     }
-    
-    
+
     public Queue<Kunde> getVormerkerFuer(Medium medium)
     {
         return _vormerkKarten.get(medium).getVormerker();
-        
+
     }
-    
-    
+
     public VormerkKarte getVormerkkarteFuer(Medium medium)
     {
         return _vormerkKarten.get(medium);
     }
 
-    
     public boolean istVormerkenMoeglich(List<Medium> medien, Kunde kunde)
     {
-        for ( Medium medium : medien)
+        for (Medium medium : medien)
         {
-            if( _vormerkKarten.get(medium).istVormerkenMoeglich(kunde) == false)
+            if (_vormerkKarten.get(medium).istVormerkenMoeglich(kunde) == false)
                 return false;
         }
-        
+
         return true;
     }
-    
+
     public Kunde getErstenVormerkerFuer(Medium medium)
     {
-        return ( getVormerkerFuer(medium) != null ) ? getVormerkerFuer(medium).remove() : null;
-        
+        return (getVormerkerFuer(medium) != null && getVormerkerFuer(medium)
+                .size() > 0) ? getVormerkerFuer(medium).element() : null;
+
     }
 }

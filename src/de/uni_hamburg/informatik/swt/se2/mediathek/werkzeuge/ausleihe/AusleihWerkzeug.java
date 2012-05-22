@@ -223,7 +223,7 @@ public class AusleihWerkzeug
         // DONE für Aufgabenblatt 6: So ändern, dass vorgemerkte Medien nur vom
         // ersten Vormerker ausgeliehen werden können.
         for( Medium medium : medien)
-            if( _verleihService.getVormerkerFuer(medium).remove().equals(kunde))
+            if( equals(_verleihService.getErstenVormerkerFuer(medium)))
                 return false;
         
         return (kunde != null) && !medien.isEmpty()

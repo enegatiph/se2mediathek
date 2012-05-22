@@ -44,7 +44,7 @@ public class VormerkKarte
   }
   public void addVormerker(Kunde k)
   {
-      if (  _kunden.size() < MAX_VORMERKER && _kunden.contains(k) ) //TODO Vertraagsmodell
+      if ( istVormerkenMoeglich( k) )
       {
           _kunden.add(k);
       }
@@ -55,7 +55,7 @@ public class VormerkKarte
   }
   public boolean istVormerkenMoeglich(Kunde k)
   {
-      return _kunden.size() < MAX_VORMERKER && _kunden.contains(k);
+      return _kunden.size() < MAX_VORMERKER && !_kunden.contains(k);
   }
   
   public Kunde removeErstenVormerker()
