@@ -1,0 +1,43 @@
+
+Informationen die zu einer Vormerkung gehören:
+
+- Wer
+- was
+- wann
+	- reihenfolge der vormerkungen
+- wie viele haben es vorgemerkt
+
+
+Interne Ablegung der Informationen:
+
+- wer : KundenObjekt # Kunde
+- was : MedienObjekt # Medium
+- wann : falls die zeit wichtig ist; DatumObjekt #Datum
+	- liste der vormerkungen in einer Queue (FIFO) der länge 3
+
+Welche Objekte bilden eine Vormerkung ab?:
+
+- KundenauflisterWerkzeug
+- VormerkMedienauflisterWerkzeug
+- MedienDetailAnzeigerWerkzeug
+- KundenDetailAnzeigerWerkzeug
+
+Welche Klassen sind am Vorgang vormerken beteiligt?:
+
+- VormerkWerkzeug
+- Medium
+- Kunde
+- KundenauflisterWerkzeug
+- VormerkMedienauflisterWerkzeug
+- MedienDetailAnzeigerWerkzeug
+- KundenDetailAnzeigerWerkzeug
+
+Welche Aufgaben und welche Schnittstellen haben diese Klassen?:
+
+- VormerkWerkzeug
+- Medium
+- Kunde
+- KundenauflisterWerkzeug
+- VormerkMedienauflisterWerkzeug
+- MedienDetailAnzeigerWerkzeug
+- KundenDetailAnzeigerWerkzeug
