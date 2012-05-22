@@ -1,6 +1,7 @@
 package de.uni_hamburg.informatik.swt.se2.mediathek.services.verleih;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Queue;
 
@@ -253,5 +254,7 @@ public interface VerleihService extends BeobachtbarerService
 
     
     public boolean istVormerkenMoeglich(List<Medium> medien, Kunde kunde);
+    
+    public Kunde getErstenVormerkerFuer(Medium medium);
 
 }

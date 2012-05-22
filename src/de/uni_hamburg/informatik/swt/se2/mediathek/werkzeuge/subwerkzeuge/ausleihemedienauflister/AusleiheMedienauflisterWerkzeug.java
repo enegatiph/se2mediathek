@@ -84,7 +84,7 @@ public class AusleiheMedienauflisterWerkzeug extends BeobachtbaresSubWerkzeug
             boolean istVerliehen = _verleihService.istVerliehen(medium);
             // DONE für Aufgabenblatt 6: Falls ein Vormerker für ein Medium
             // existiert, muss dieser hier ermittelt werden.
-            Kunde ersterVormerker = _verleihService.getVormerkerFuer(medium).remove();
+            Kunde ersterVormerker = _verleihService.getErstenVormerkerFuer(medium);
 
             medienFormatierer.add(new AusleiheMedienFormatierer(medium,
                     istVerliehen, ersterVormerker));

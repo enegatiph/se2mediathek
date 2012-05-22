@@ -346,4 +346,10 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         
         return true;
     }
+    
+    public Kunde getErstenVormerkerFuer(Medium medium)
+    {
+        return ( getVormerkerFuer(medium) != null ) ? getVormerkerFuer(medium).remove() : null;
+        
+    }
 }
