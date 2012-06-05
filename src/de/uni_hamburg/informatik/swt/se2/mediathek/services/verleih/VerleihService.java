@@ -241,20 +241,74 @@ public interface VerleihService extends BeobachtbarerService
      */
     Verleihkarte getVerleihkarteFuer(Medium medium);
     
-    //--
-    //TODO kommentare
+    // DONE Vertragsmodell für VerleihService (Interface)
     
+    /**
+     * Registriert jew. eine Vormerkung für die spezifizierten Medien
+     * 
+     * @param k
+     *         Der Kunde der Medien vormerken möchte
+     * @param medien
+     *         Eine Liste von Medien welche vorgemerkt werden sollen
+     * @require kundeImBestand(k)
+     * @require medienImBestand(medien)
+     * @require istVormerkenMoeglich(medien, k)
+     * 
+     */
     public void merkeVor(Kunde k, List<Medium> medien);
     
-    
+    /**
+     * Gibt eine Liste der Vormerker für das angegebene Medium aus
+     * 
+     * @param medium
+     *              Medium für welches die Vormerker aufgelistet werden sollen
+     * @return Liste der Medien
+     * 
+     * @require mediumImBestand(medium)
+     * @ensure result != null
+     */
     public Queue<Kunde> getVormerkerFuer(Medium medium);
     
-    
+    /**
+     * Gibt die Vormerkkarte für das angegebene Medium aus
+     * 
+     * @param medium
+     *              Medium für welches die Vormerkerkkarte ausgegeben werden soll
+     * @return Vormerkkarte des Mediums
+     * 
+     * @require mediumImBestand(medium)
+     * @ensure result != null
+     */
     public VormerkKarte getVormerkkarteFuer(Medium medium);
 
-    
+    /**
+     * Ermittelt ob die angegebenen Medien Vorgemerkt werden können.
+     * Dies ist möglich wenn, der Kunde selbst ein bestimmtes Medium 
+     * a) noch nicht vorgemerkt hat
+     * b) es selbst nicht ausgeliehen hat
+     * c) [da fehlt bestimmt nochwas ]
+     * 
+     * @param medien
+     *              Medien für die festgestellt werden soll ob sie vormerkbar sind
+     * @param kunde
+     *             Kunde welcher die Vormerkung vornehmen möchte
+     * @return Status: Ist es möglich? (antwort: Ja/Nein bzw true/false)
+     * 
+     * @require kundeImBestand(k)
+     * @require medienImBestand(medien)
+     */
     public boolean istVormerkenMoeglich(List<Medium> medien, Kunde kunde);
     
+    /**
+     * Gibt den ersten Vormerker fürs angegebene Medium an
+     * 
+     * @param medium
+     *              Medium für welches der Vormerker ermittelt werden soll
+     * @return Kunde welcher als erstes vorgemerkt hat
+     * 
+     * @require mediumImBestand(medien)
+     * @ensure result can be null
+     */
     public Kunde getErstenVormerkerFuer(Medium medium);
 
 }
