@@ -191,6 +191,8 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
             if(getErstenVormerkerFuer(medium) != null)
             {
                 getVormerkkarteFuer(medium).removeErstenVormerker();
+                // TODO hier fehlt doch noch bestimmt was wo wird er erste vormerker gespeichert
+                // damit das medium an ihn ausgegeben werden kann?
             }
 
             Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
