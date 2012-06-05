@@ -173,7 +173,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         return result;
     }
 
-    // wurde editiert
+    // DONE verleihe an
     @Override
     public void verleiheAn(Kunde kunde, List<Medium> medien, Datum ausleihDatum)
             throws ProtokollierException
