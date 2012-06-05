@@ -1,7 +1,6 @@
 package de.uni_hamburg.informatik.swt.se2.mediathek.materialien;
 
-//TODO: vertragsmodell....
-// WORKING vertragsmodell
+//DONE Vertragsmodell
 
 import  de.uni_hamburg.informatik.swt.se2.mediathek.materialien.Kunde;
 import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
@@ -104,8 +103,6 @@ public class VormerkKarte
   {
       return _medium;
   }
-  
-  // TODO comment const MAX_VORMERKER
    
   /** 
    * Überprüft ob der angegebene Kunden eine VOrmerkung vornehmen kann.
