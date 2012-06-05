@@ -138,5 +138,14 @@ public class VerleihServiceImplTest
                 Collections.singletonList(_medienListe.get(2)), _datum);
         assertFalse(ereignisse[0]);
     }
+    
+    
+    //merkeVor test
+    @Test
+    public void testMerkeVor() throws ProtokollierException
+    {
+        _service.verleiheAn(_kunde, _medienListe, _datum);
+        assertFalse(_service.istVormerkenMoeglich(_medienListe, _kunde));
+    }
 
 }

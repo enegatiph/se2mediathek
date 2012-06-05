@@ -220,6 +220,8 @@ public class VormerkWerkzeug
         List<Medium> medien = _medienAuflisterWerkzeug.getSelectedMedien();
         Kunde kunde = _kundenAuflisterWerkzeug.getSelectedKunde();
         // DONE für Aufgabenblatt 6: Prüfung muss noch eingebaut werden
+        
+        
         return (kunde != null) 
                     && !medien.isEmpty() 
                     && _verleihService.istVormerkenMoeglich(medien, kunde);

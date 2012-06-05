@@ -307,32 +307,41 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
 
     public void merkeVor(Kunde k, List<Medium> medien)
     {
+        assert kundeImBestand(k) : "Kunde unbekannt";
+        assert medienImBestand(medien) : "Mind. 1 Medium unbekannt";
+        assert istVormerkenMoeglich(medien, k) : "Dieser Kunde kann Mind. 1 Medium nicht vormerken";
+        
+        
         for (Medium medium : medien)
         {
-            if (_vormerkKarten.get(medium).istVormerkenMoeglich(k))
-            {
                 _vormerkKarten.get(medium).addVormerker(k);
-            }
         }
+        
         informiereUeberAenderung();
     }
 
     public Queue<Kunde> getVormerkerFuer(Medium medium)
     {
+        assert mediumImBestand(medium) : "Unbekanntes Medium";
         return _vormerkKarten.get(medium).getVormerker();
 
     }
 
     public VormerkKarte getVormerkkarteFuer(Medium medium)
     {
+        assert mediumImBestand(medium) : "Unbekanntes Medium";
         return _vormerkKarten.get(medium);
     }
 
     public boolean istVormerkenMoeglich(List<Medium> medien, Kunde kunde)
     {
+        assert medienImBestand(medien) : "Unbekanntes Medium";
+        assert kundeImBestand(kunde) : "Unbekannter Kunde";
+        
         for (Medium medium : medien)
         {
-            if (_vormerkKarten.get(medium).istVormerkenMoeglich(kunde) == false)
+            if ( !_vormerkKarten.get(medium).istVormerkenMoeglich(kunde) || 
+                    ( _verleihkarten.get(medium) != null && _verleihkarten.get(medium).getEntleiher() == kunde))
                 return false;
         }
 
@@ -341,6 +350,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
 
     public Kunde getErstenVormerkerFuer(Medium medium)
     {
+        assert mediumImBestand(medium) : "Unbekanntes Medium";
         return (getVormerkerFuer(medium) != null && getVormerkerFuer(medium)
                 .size() > 0) ? getVormerkerFuer(medium).element() : null;
 
