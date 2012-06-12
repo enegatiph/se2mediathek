@@ -116,11 +116,13 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
         assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
         System.out.printf("fooo");
-        // DONE
+        // DONE VerleihServiceImpl - ist verleihen möglich
         for (Medium medium : medien)
         {
             if (getErstenVormerkerFuer(medium) != null && !kunde.equals(getErstenVormerkerFuer(medium)))
+            {
                 return false;
+            }
         }
 
         return sindAlleNichtVerliehen(medien);
@@ -173,7 +175,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         return result;
     }
 
-    // wurde editiert
+    // DONE verleihe an
     @Override
     public void verleiheAn(Kunde kunde, List<Medium> medien, Datum ausleihDatum)
             throws ProtokollierException
@@ -185,9 +187,13 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
 
         for (Medium medium : medien)
         {
-            // DONE
+            // DONE VerleihServiceImpl - verleihean
             if(getErstenVormerkerFuer(medium) != null)
+            {
                 getVormerkkarteFuer(medium).removeErstenVormerker();
+                // TODO hier fehlt doch noch bestimmt was wo wird er erste vormerker gespeichert
+                // damit das medium an ihn ausgegeben werden kann?
+            }
 
             Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
                     ausleihDatum);
@@ -305,6 +311,7 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         return result;
     }
 
+    // DONE implementation des Vertragsmodells
     public void merkeVor(Kunde k, List<Medium> medien)
     {
         assert kundeImBestand(k) : "Kunde unbekannt";
@@ -324,7 +331,6 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
     {
         assert mediumImBestand(medium) : "Unbekanntes Medium";
         return _vormerkKarten.get(medium).getVormerker();
-
     }
 
     public VormerkKarte getVormerkkarteFuer(Medium medium)
@@ -332,7 +338,8 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         assert mediumImBestand(medium) : "Unbekanntes Medium";
         return _vormerkKarten.get(medium);
     }
-
+    
+    // DONE VerleihServiceImpl - istVormerkenMoeglich - (entleiher == vormerker)?
     public boolean istVormerkenMoeglich(List<Medium> medien, Kunde kunde)
     {
         assert medienImBestand(medien) : "Unbekanntes Medium";
@@ -340,14 +347,13 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         
         for (Medium medium : medien)
         {
-            if ( !_vormerkKarten.get(medium).istVormerkenMoeglich(kunde) || 
-                    ( _verleihkarten.get(medium) != null && _verleihkarten.get(medium).getEntleiher() == kunde))
                 return false;
+            }
         }
 
         return true;
     }
-
+    
     public Kunde getErstenVormerkerFuer(Medium medium)
     {
         assert mediumImBestand(medium) : "Unbekanntes Medium";

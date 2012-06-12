@@ -142,7 +142,7 @@ public class VerleihServiceImplTest
     
     //merkeVor test
     @Test
-    public void testMerkeVor() throws ProtokollierException
+    public void testeMerkeVor() throws ProtokollierException
     {
         _service.verleiheAn(_kunde, _medienListe, _datum);
         assertFalse(_service.istVormerkenMoeglich(_medienListe, _kunde));
