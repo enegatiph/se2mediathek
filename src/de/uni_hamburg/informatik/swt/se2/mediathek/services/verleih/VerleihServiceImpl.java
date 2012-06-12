@@ -119,7 +119,8 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         // DONE VerleihServiceImpl - ist verleihen möglich
         for (Medium medium : medien)
         {
-            if (getErstenVormerkerFuer(medium) != null && !kunde.equals(getErstenVormerkerFuer(medium)))
+            if (getErstenVormerkerFuer(medium) != null
+                    && !kunde.equals(getErstenVormerkerFuer(medium)))
             {
                 return false;
             }
@@ -188,10 +189,11 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         for (Medium medium : medien)
         {
             // DONE VerleihServiceImpl - verleihean
-            if(getErstenVormerkerFuer(medium) != null)
+            if (getErstenVormerkerFuer(medium) != null)
             {
                 getVormerkkarteFuer(medium).removeErstenVormerker();
-                // TODO hier fehlt doch noch bestimmt was wo wird er erste vormerker gespeichert
+                // TODO hier fehlt doch noch bestimmt was wo wird er erste
+                // vormerker gespeichert
                 // damit das medium an ihn ausgegeben werden kann?
             }
 
@@ -317,13 +319,12 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         assert kundeImBestand(k) : "Kunde unbekannt";
         assert medienImBestand(medien) : "Mind. 1 Medium unbekannt";
         assert istVormerkenMoeglich(medien, k) : "Dieser Kunde kann Mind. 1 Medium nicht vormerken";
-        
-        
+
         for (Medium medium : medien)
         {
-                _vormerkKarten.get(medium).addVormerker(k);
+            _vormerkKarten.get(medium).addVormerker(k);
         }
-        
+
         informiereUeberAenderung();
     }
 
@@ -338,22 +339,28 @@ public class VerleihServiceImpl extends AbstractBeobachtbarerService implements
         assert mediumImBestand(medium) : "Unbekanntes Medium";
         return _vormerkKarten.get(medium);
     }
-    
-    // DONE VerleihServiceImpl - istVormerkenMoeglich - (entleiher == vormerker)?
+
+    // DONE VerleihServiceImpl - istVormerkenMoeglich - (entleiher ==
+    // vormerker)?
     public boolean istVormerkenMoeglich(List<Medium> medien, Kunde kunde)
     {
         assert medienImBestand(medien) : "Unbekanntes Medium";
         assert kundeImBestand(kunde) : "Unbekannter Kunde";
-        
+
         for (Medium medium : medien)
         {
+
+            if (!_vormerkKarten.get(medium).istVormerkenMoeglich(kunde)
+                    || (_verleihkarten.get(medium) != null && _verleihkarten
+                            .get(medium).getEntleiher() == kunde))
+            {
                 return false;
             }
         }
 
         return true;
     }
-    
+
     public Kunde getErstenVormerkerFuer(Medium medium)
     {
         assert mediumImBestand(medium) : "Unbekanntes Medium";
